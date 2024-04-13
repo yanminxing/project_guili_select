@@ -18,3 +18,4 @@ yarn run dev
 npm i
 npm run dev
 ```
+## 注意，详细文档查看projectGuiliSelectDoc/Readme.md
