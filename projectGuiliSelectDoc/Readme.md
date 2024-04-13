@@ -331,3 +331,9 @@ npm install -D eslint-plugin-prettier prettier eslint-config-prettier
 ```
 
 通过pnpm run lint去检测语法，如果出现不规范格式,通过pnpm run fix 修改
+
+
+
+3 当eslint和prettier冲突的时候
+
+可以.eslintrc.cjs里面配置对应的规则（eslint会覆盖prettier）
