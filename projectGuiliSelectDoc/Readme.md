@@ -26,17 +26,21 @@
 
 ### 2.1 项目初始化
 
-### 2.1.1 环境以及要求
+#### 2.1.1 环境以及要求
 
-可以在[vite](https://cn.vitejs.dev/)官网上面查看node版本要求，现在推荐是16版本往上。这里使用：
+可以在[vite](https://cn.vitejs.dev/)官网上面查看node版本要求，现在推荐是16版本往上，下载了eslint9.0.0，版本需要v18.20.0以上了。这里使用：
 
 ```
-node：v18.12.0
-npm: 8.19.2
+node：v18.20.0
+npm: 10.5.0
 yarn:1.22.19
 ```
 
-### 2.1.2 关联远程仓库
+![](https://github.com/yanminxing/project_doc/blob/main/comImage/project_guili_select/initProject/createProject.png?raw=true)
+
+
+
+#### 2.1.2 关联远程仓库
 
 1 [git 将本地项目关联到远程仓库](https://blog.csdn.net/qq_40028324/article/details/110584326)
 
@@ -77,5 +81,52 @@ git合并无关分支时候，会报错`fatal: refusing to merge unrelated histo
 
 ```
 git merge master --allow-unrelated-histories
+```
+
+####  2.1.3 项目自动启动
+
+package.json修改dev命令。添加--open
+
+```json
+  "scripts": {
+    "dev": "vite --open",
+    "build": "vue-tsc && vite build",
+    "preview": "vite preview"
+  },
+```
+
+### 2.2 eslint配置
+
+1 安装
+
+```
+yarn add eslint -D  // 版本"eslint": "^9.0.0",你必须安装并构建 Node.js（^18.18.0、^20.9.0 或 >=21.1.0）并支持 SSL
+```
+
+2 生成配置文件（和视频不一样，不利于学习，故采用3进行配置）
+
+```
+npx eslint --init  或者 npm init @eslint/config
+```
+
+![](https://github.com/yanminxing/project_doc/blob/main/comImage/project_guili_select/initProject/addEslint.png?raw=true)
+
+
+
+会在项目中生成一个文件eslint.config.js，
+
+```
+import globals from "globals";
+import pluginJs from "@eslint/js";
+import tseslint from "typescript-eslint";
+import pluginVue from "eslint-plugin-vue";
+
+
+export default [
+  {languageOptions: { globals: globals.browser }},
+  pluginJs.configs.recommended,
+  ...tseslint.configs.recommended,
+  ...pluginVue.configs["flat/essential"],
+];
 ```
 
