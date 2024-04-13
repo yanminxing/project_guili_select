@@ -38,7 +38,7 @@ yarn:1.22.19
 
 ### 2.1.2 关联远程仓库
 
-[git 将本地项目关联到远程仓库](https://blog.csdn.net/qq_40028324/article/details/110584326)
+1 [git 将本地项目关联到远程仓库](https://blog.csdn.net/qq_40028324/article/details/110584326)
 
 ```
 // 1  git 将本地项目关联到远程仓库
@@ -51,5 +51,31 @@ git remote -v
 git add .
 git commit -m "一些描述"
 git push origin master   或  git push -u origin master
+```
+
+
+
+2 [提交git报错Failed to connect to github.com port 443 解决方案](https://blog.csdn.net/zpf1813763637/article/details/128340109)
+
+如果使用https提交代码到githua上面，需要使用vpn代理。其实也可以使用ssh提交代码，这里介绍一下使用vpn代理提交。
+
+```
+// 设置代理
+git config --global http.proxy 127.0.0.1:7890
+git config --global https.proxy 127.0.0.1:7890
+// 查看代理
+git config --global --get http.proxy
+git config --global --get https.proxy
+// 取消
+git config --global --unset http.proxy
+git config --global --unset https.proxy
+```
+
+3 [git 合并无关分支](https://blog.csdn.net/wd2014610/article/details/80854807)
+
+git合并无关分支时候，会报错`fatal: refusing to merge unrelated histories`，在后面添加git merge master --allow-unrelated-histories即可
+
+```
+git merge master --allow-unrelated-histories
 ```
 
