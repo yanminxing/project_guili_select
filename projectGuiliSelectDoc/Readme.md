@@ -537,3 +537,44 @@ pnpm commitlint
 ```
 
 当我们 commit 提交信息时，就不能再随意写了，必须是 git commit -m 'fix: xxx' 符合类型的才可以，**需要注意的是类型的后面需要用英文的 :，并且冒号后面是需要空一格的，这个是不能省略的**
+
+### 2.7 集成Element-plus
+
+硅谷甄选运营平台,UI组件库采用的element-plus，因此需要集成element-plus插件！！！
+
+官网地址:https://element-plus.gitee.io/zh-CN/
+
+```
+pnpm install element-plus @element-plus/icons-vue
+// 或者
+yarn add element-plus @element-plus/icons-vue
+```
+
+**入口文件main.ts全局安装element-plus,element-plus默认支持语言英语设置为中文**
+
+```
+import ElementPlus from 'element-plus';
+import 'element-plus/dist/index.css'
+//@ts-ignore忽略当前文件ts类型的检测否则有红色提示(打包会失败)
+import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
+app.use(ElementPlus, {
+    locale: zhCn
+})
+```
+
+
+
+**Element Plus全局组件类型声明**
+
+```
+// tsconfig.json
+{
+  "compilerOptions": {
+    // ...
+    "types": ["element-plus/global"]
+  }
+}
+```
+
+配置完毕可以测试element-plus组件与图标的使用.
+
