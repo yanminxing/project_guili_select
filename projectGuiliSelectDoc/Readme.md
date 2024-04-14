@@ -555,14 +555,12 @@ yarn add element-plus @element-plus/icons-vue
 ```
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css'
-//@ts-ignore忽略当前文件ts类型的检测否则有红色提示(打包会失败)
+//@ts-ignore忽略当前文件ts类型的检测否则有红色提示(打包会失败)（项目当前版本并没有出现）
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 app.use(ElementPlus, {
     locale: zhCn
 })
 ```
-
-
 
 **Element Plus全局组件类型声明**
 
@@ -578,3 +576,35 @@ app.use(ElementPlus, {
 
 配置完毕可以测试element-plus组件与图标的使用.
 
+### 2.8 src别名的配置
+
+在开发项目的时候文件与文件关系可能很复杂，因此我们需要给src文件夹配置一个别名！！！
+
+```
+// vite.config.ts
+import {defineConfig} from 'vite'
+import vue from '@vitejs/plugin-vue'
+import path from 'path'
+export default defineConfig({
+    plugins: [vue()],
+    resolve: {
+        alias: {
+            "@": path.resolve("./src") // 相对路径别名配置，使用 @ 代替 src
+        }
+    }
+})
+```
+
+**TypeScript 编译配置**
+
+```
+// tsconfig.json
+{
+  "compilerOptions": {
+    "baseUrl": "./", // 解析非相对模块的基地址，默认是当前目录
+    "paths": { //路径映射，相对于baseUrl
+      "@/*": ["src/*"]
+    }
+  }
+}
+```
