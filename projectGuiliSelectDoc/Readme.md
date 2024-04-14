@@ -8,17 +8,13 @@
 
 ![组件通信方式简介](https://github.com/yanminxing/project_doc/blob/main/comImage/project_guili_select/componentCommunicate/communicateOverview.png?raw=true)
 
-
-
-#### 1.1.1  props组件通信方式
+#### 1.1.1 props组件通信方式
 
 ![propsParent](https://github.com/yanminxing/project_doc/blob/main/comImage/project_guili_select/componentCommunicate/propsParent.png?raw=true)
 
 ![propsChild](https://github.com/yanminxing/project_doc/blob/main/comImage/project_guili_select/componentCommunicate/propsChild.png?raw=true)
 
-
-
-## 2  项目的搭建(p15-)
+## 2 项目的搭建(p15-)
 
 简介：从0-1搭建vue3+vite+typescript后台管理系统。
 
@@ -38,26 +34,22 @@ yarn:1.22.19
 
 ![](https://github.com/yanminxing/project_doc/blob/main/comImage/project_guili_select/initProject/createProject.png?raw=true)
 
-
-
 #### 2.1.2 关联远程仓库
 
 1 [git 将本地项目关联到远程仓库](https://blog.csdn.net/qq_40028324/article/details/110584326)
 
 ```
 // 1  git 将本地项目关联到远程仓库
-git init 
+git init
 // 2 关联远程仓库
 git remote add origin  https://xxxxxxxxx.git
-// 查看是否添加成功 
+// 查看是否添加成功
 git remote -v
-// 提交代码 
+// 提交代码
 git add .
 git commit -m "一些描述"
 git push origin master   或  git push -u origin master
 ```
-
-
 
 2 [提交git报错Failed to connect to github.com port 443 解决方案](https://blog.csdn.net/zpf1813763637/article/details/128340109)
 
@@ -83,7 +75,7 @@ git合并无关分支时候，会报错`fatal: refusing to merge unrelated histo
 git merge master --allow-unrelated-histories
 ```
 
-####  2.1.3 项目自动启动
+#### 2.1.3 项目自动启动
 
 package.json修改dev命令。添加--open
 
@@ -111,8 +103,6 @@ npx eslint --init  或者 npm init @eslint/config
 
 ![](https://github.com/yanminxing/project_doc/blob/main/comImage/project_guili_select/initProject/addEslint.png?raw=true)
 
-
-
 会在项目中生成一个文件eslint.config.js，
 
 ```
@@ -138,8 +128,6 @@ export default [
 yarn add eslint-plugin-vue@latest @typescript-eslint/eslint-plugin@latest @typescript-eslint/parser@latest -D
 ```
 
-
-
 #### 4 配置学习
 
 1 **.eslint.cjs配置文件**
@@ -147,12 +135,12 @@ yarn add eslint-plugin-vue@latest @typescript-eslint/eslint-plugin@latest @types
 ```
 module.exports = {
    //运行环境
-    "env": { 
+    "env": {
         "browser": true,//浏览器端
         "es2021": true,//es2021
     },
     //规则继承
-    "extends": [ 
+    "extends": [
        //全部规则默认是关闭的,这个配置项开启推荐规则,推荐规则参照文档
        //比如:函数不能重名、对象不能出现重复key
         "eslint:recommended",
@@ -186,8 +174,6 @@ module.exports = {
 }
 ```
 
-
-
 2 **vue3环境代码校验插件**
 
 > #### 让所有与prettier规则存在冲突的Eslint rules失效，并使用prettier进行代码检查
@@ -197,10 +183,15 @@ module.exports = {
 > "eslint-plugin-node": "^11.1.0",
 >
 > #### 运行更漂亮的Eslint，使prettier规则优先级更高，Eslint优先级低
+>
 > "eslint-plugin-prettier": "^4.2.1",
+>
 > #### vue.js的Eslint插件（查找vue语法错误，发现错误指令，查找违规风格指南
+>
 > "eslint-plugin-vue": "^9.9.0",
+>
 > #### 该解析器允许使用Eslint校验所有babel code
+>
 > "@babel/eslint-parser": "^7.19.1",
 
 ```
@@ -208,72 +199,63 @@ module.exports = {
 npm install -D eslint-plugin-import eslint-plugin-vue eslint-plugin-node eslint-plugin-prettier eslint-config-prettier eslint-plugin-node @babel/eslint-parser
 ```
 
-
-
 **3 修改.eslintrc.cjs配置文件**
 
 ```js
 // @see https://eslint.bootcss.com/docs/rules/
 
 module.exports = {
-	env: {
-		browser: true,
-		es2021: true,
-		node: true,
-		jest: true,
-	},
-	/* 指定如何解析语法 */
-	parser: 'vue-eslint-parser',
-	/** 优先级低于 parse 的语法解析配置 */
-	parserOptions: {
-		ecmaVersion: 'latest',
-		sourceType: 'module',
-		parser: '@typescript-eslint/parser',
-		jsxPragma: 'React',
-		ecmaFeatures: {
-			jsx: true,
-		},
-	},
-	/* 继承已有的规则 */
-	extends: [
-		'eslint:recommended',
-		'plugin:vue/vue3-essential',
-		'plugin:@typescript-eslint/recommended',
-		'plugin:prettier/recommended',
-	],
-	plugins: ['vue', '@typescript-eslint'],
-	/*
-	 * "off" 或 0    ==>  关闭规则
-	 * "warn" 或 1   ==>  打开的规则作为警告（不影响代码执行）
-	 * "error" 或 2  ==>  规则作为一个错误（代码不能执行，界面报错）
-	 */
-	rules: {
-		// eslint（https://eslint.bootcss.com/docs/rules/）
-		'no-var': 'error', // 要求使用 let 或 const 而不是 var
-		'no-multiple-empty-lines': ['warn', { max: 1 }], // 不允许多个空行
-		'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-		'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-		'no-unexpected-multiline': 'error', // 禁止空余的多行
-		'no-useless-escape': 'off', // 禁止不必要的转义字符
+  env: {
+    browser: true,
+    es2021: true,
+    node: true,
+    jest: true
+  },
+  /* 指定如何解析语法 */
+  parser: 'vue-eslint-parser',
+  /** 优先级低于 parse 的语法解析配置 */
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+    parser: '@typescript-eslint/parser',
+    jsxPragma: 'React',
+    ecmaFeatures: {
+      jsx: true
+    }
+  },
+  /* 继承已有的规则 */
+  extends: ['eslint:recommended', 'plugin:vue/vue3-essential', 'plugin:@typescript-eslint/recommended', 'plugin:prettier/recommended'],
+  plugins: ['vue', '@typescript-eslint'],
+  /*
+   * "off" 或 0    ==>  关闭规则
+   * "warn" 或 1   ==>  打开的规则作为警告（不影响代码执行）
+   * "error" 或 2  ==>  规则作为一个错误（代码不能执行，界面报错）
+   */
+  rules: {
+    // eslint（https://eslint.bootcss.com/docs/rules/）
+    'no-var': 'error', // 要求使用 let 或 const 而不是 var
+    'no-multiple-empty-lines': ['warn', { max: 1 }], // 不允许多个空行
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-unexpected-multiline': 'error', // 禁止空余的多行
+    'no-useless-escape': 'off', // 禁止不必要的转义字符
 
-		// typeScript (https://typescript-eslint.io/rules)
-		'@typescript-eslint/no-unused-vars': 'error', // 禁止定义未使用的变量
-		'@typescript-eslint/prefer-ts-expect-error': 'error', // 禁止使用 @ts-ignore
-		'@typescript-eslint/no-explicit-any': 'off', // 禁止使用 any 类型
-		'@typescript-eslint/no-non-null-assertion': 'off',
-		'@typescript-eslint/no-namespace': 'off', // 禁止使用自定义 TypeScript 模块和命名空间。
-		'@typescript-eslint/semi': 'off',
+    // typeScript (https://typescript-eslint.io/rules)
+    '@typescript-eslint/no-unused-vars': 'error', // 禁止定义未使用的变量
+    '@typescript-eslint/prefer-ts-expect-error': 'error', // 禁止使用 @ts-ignore
+    '@typescript-eslint/no-explicit-any': 'off', // 禁止使用 any 类型
+    '@typescript-eslint/no-non-null-assertion': 'off',
+    '@typescript-eslint/no-namespace': 'off', // 禁止使用自定义 TypeScript 模块和命名空间。
+    '@typescript-eslint/semi': 'off',
 
-		// eslint-plugin-vue (https://eslint.vuejs.org/rules/)
-		'vue/multi-word-component-names': 'off', // 要求组件名称始终为 “-” 链接的单词
-		'vue/script-setup-uses-vars': 'error', // 防止<script setup>使用的变量<template>被标记为未使用
-		'vue/no-mutating-props': 'off', // 不允许组件 prop的改变
-		'vue/attribute-hyphenation': 'off', // 对模板中的自定义组件强制执行属性命名样式
-	},
-}
+    // eslint-plugin-vue (https://eslint.vuejs.org/rules/)
+    'vue/multi-word-component-names': 'off', // 要求组件名称始终为 “-” 链接的单词
+    'vue/script-setup-uses-vars': 'error', // 防止<script setup>使用的变量<template>被标记为未使用
+    'vue/no-mutating-props': 'off', // 不允许组件 prop的改变
+    'vue/attribute-hyphenation': 'off' // 对模板中的自定义组件强制执行属性命名样式
+  }
+};
 ```
-
-
 
 4 **eslintignore忽略文件.eslintignore**
 
@@ -331,8 +313,6 @@ npm install -D eslint-plugin-prettier prettier eslint-config-prettier
 ```
 
 通过pnpm run lint去检测语法，如果出现不规范格式,通过pnpm run fix 修改
-
-
 
 3 当eslint和prettier冲突的时候
 
@@ -441,3 +421,33 @@ module.exports = {
 ```
 
 **当我们运行`pnpm run format`的时候，会把代码直接格式化**
+
+### 2.5 配置husky
+
+在上面我们已经集成好了我们代码校验工具，但是需要每次手动的去执行命令才会格式化我们的代码。如果有人没有格式化就提交了远程仓库中，那这个规范就没什么用。所以我们需要强制让开发人员按照代码规范来提交。
+
+要做到这件事情，就需要利用husky在代码提交之前触发git hook(git在客户端的钩子)，然后执行`pnpm run format`来自动的格式化我们的代码。
+
+安装`husky`
+
+```
+pnpm install -D husky | yarn add -D husky
+```
+
+执行
+
+```
+npx husky-init
+```
+
+会在根目录下生成个一个.husky目录，在这个目录下面会有一个pre-commit文件，这个文件里面的命令在我们执行commit的时候就会执行
+
+在`.husky/pre-commit`文件添加如下命令：
+
+```
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+pnpm run format
+```
+
+当我们对代码进行commit操作的时候，就会执行命令，对代码进行格式化，然后再提交。
