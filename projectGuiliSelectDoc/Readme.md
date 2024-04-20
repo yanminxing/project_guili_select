@@ -224,7 +224,12 @@ module.exports = {
     }
   },
   /* 继承已有的规则 */
-  extends: ['eslint:recommended', 'plugin:vue/vue3-essential', 'plugin:@typescript-eslint/recommended', 'plugin:prettier/recommended'],
+  extends: [
+    'eslint:recommended',
+    'plugin:vue/vue3-essential',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:prettier/recommended'
+  ],
   plugins: ['vue', '@typescript-eslint'],
   /*
    * "off" 或 0    ==>  关闭规则
@@ -667,9 +672,7 @@ VITE_APP_BASE_API = '/test-api'
 
 通过import.meta.env获取环境变量
 
-
-
-### 2.10  SVG图标配置
+### 2.10 SVG图标配置
 
 在开发项目的时候经常会用到svg矢量图,而且我们使用SVG以后，页面上加载的不再是图片资源,
 
@@ -772,4 +775,3 @@ export default {
 import gloablComponent from './components/index';
 app.use(gloablComponent);
 ```
-
