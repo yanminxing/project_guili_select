@@ -87,7 +87,7 @@ package.json修改dev命令。添加--open
   },
 ```
 
-2.2 eslint配置
+### 2.2 eslint配置
 
 1 安装
 
@@ -608,3 +608,63 @@ export default defineConfig({
   }
 }
 ```
+
+
+
+### 2.9   环境变量的配置
+
+**项目开发过程中，至少会经历开发环境、测试环境和生产环境(即正式环境)三个阶段。不同阶段请求的状态(如接口地址等)不尽相同，若手动切换接口地址是相当繁琐且易出错的。于是环境变量配置的需求就应运而生，我们只需做简单的配置，把环境状态切换的工作交给代码。**
+
+开发环境（development）
+顾名思义，开发使用的环境，每位开发人员在自己的dev分支上干活，开发到一定程度，同事会合并代码，进行联调。
+
+测试环境（testing）
+测试同事干活的环境啦，一般会由测试同事自己来部署，然后在此环境进行测试
+
+生产环境（production）
+生产环境是指正式提供对外服务的，一般会关掉错误报告，打开错误日志。(正式提供给客户使用的环境。)
+
+注意:一般情况下，一个环境对应一台服务器,也有的公司开发与测试环境是一台服务器！！！
+
+项目根目录分别添加 开发、生产和测试环境的文件!
+
+```
+.env.development
+.env.production
+.env.test
+```
+
+文件内容
+
+```
+# 变量必须以 VITE_ 为前缀才能暴露给外部读取
+NODE_ENV = 'development'
+VITE_APP_TITLE = '硅谷甄选运营平台'
+VITE_APP_BASE_API = '/dev-api'
+```
+
+```
+NODE_ENV = 'production'
+VITE_APP_TITLE = '硅谷甄选运营平台'
+VITE_APP_BASE_API = '/prod-api'
+```
+
+```
+# 变量必须以 VITE_ 为前缀才能暴露给外部读取
+NODE_ENV = 'test'
+VITE_APP_TITLE = '硅谷甄选运营平台'
+VITE_APP_BASE_API = '/test-api'
+```
+
+配置运行命令：package.json
+
+```
+ "scripts": {
+    "dev": "vite --open",
+    "build:test": "vue-tsc && vite build --mode test",
+    "build:pro": "vue-tsc && vite build --mode production",
+    "preview": "vite preview"
+  },
+```
+
+通过import.meta.env获取环境变量
