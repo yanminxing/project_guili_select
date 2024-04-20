@@ -775,3 +775,55 @@ export default {
 import gloablComponent from './components/index';
 app.use(gloablComponent);
 ```
+
+### 2.11 集成sass
+
+我们目前在组件内部已经可以使用scss样式,因为在配置styleLint工具的时候，项目当中已经安装过sass sass-loader,因此我们再组件内可以使用scss语法！！！需要加上lang="scss"
+
+```
+<style scoped lang="scss"></style>
+```
+
+接下来我们为项目添加一些全局的样式
+
+在src/styles目录下创建一个index.scss文件，当然项目中需要用到清除默认样式，因此在index.scss引入reset.scss
+
+```
+@import reset.scss
+```
+
+在入口文件引入
+
+```
+import '@/styles'
+```
+
+但是你会发现在src/styles/index.scss全局样式文件中没有办法使用$变量.因此需要给项目中引入全局变量$.
+
+在style/variable.scss创建一个variable.scss文件！
+
+在vite.config.ts文件配置如下:
+
+如下也可以(additionalData: '@use "./src/styles/variables.module.scss" as \*;')，需要注意的时候，在vue组件里面使用@use引入样式无效
+
+```
+export default defineConfig((config) => {
+	css: {
+      preprocessorOptions: {
+        scss: {
+          javascriptEnabled: true,
+          additionalData: '@import "./src/styles/variable.scss";',
+        },
+      },
+    },
+	}
+}
+```
+
+**`@import "./src/styles/variable.less";`后面的`;`不要忘记，不然会报错**!
+
+配置完毕你会发现scss提供这些全局变量可以在组件样式中使用了！！！
+
+1 注意点
+
+如果在vite.config全局引入了样式variables.module.scss（里面有使用:export出来的变量），那么在ts或者js里面引入就会报错，即重复引入的错误。这时候，需要建立一个文件align.module.scss，来专门引入variables.module.scss中变量，这时候js或者ts引入就不会报错了

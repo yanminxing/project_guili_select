@@ -8,6 +8,8 @@ import 'virtual:svg-icons-register';
 import App from '@/App.vue';
 import globalComponent from '@/components/index';
 
+import '@/styles/index.scss';
+
 /**
  * @description 创建vue应用
  */
