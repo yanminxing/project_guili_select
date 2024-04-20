@@ -1,7 +1,9 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div>111</div>
+  <div>
+    <SvgIcon name="home" color="red"></SvgIcon>
+  </div>
 </template>
 
 <style scoped></style>
