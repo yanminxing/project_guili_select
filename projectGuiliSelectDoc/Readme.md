@@ -828,9 +828,7 @@ export default defineConfig((config) => {
 
 如果在vite.config全局引入了样式variables.module.scss（里面有使用:export出来的变量），那么在ts或者js里面引入就会报错，即重复引入的错误。这时候，需要建立一个文件align.module.scss，来专门引入variables.module.scss中变量，这时候js或者ts引入就不会报错了
 
-
-
-### 2.12  mock数据
+### 2.12 mock数据
 
 安装依赖:https://www.npmjs.com/package/vite-plugin-mock
 
@@ -849,6 +847,7 @@ export default ({ command })=> {
     plugins: [
       vue(),
       viteMockServe({
+       mockPath: 'src/mock',
         localEnabled: command === 'serve',
       }),
     ],
@@ -939,3 +938,63 @@ pnpm install axios
 ```
 
 最后通过axios测试接口！！！
+
+### 2.13  axios二次封装
+
+在开发项目的时候避免不了与后端进行交互,因此我们需要使用axios插件实现发送网络请求。在开发项目的时候
+
+我们经常会把axios进行二次封装。
+
+目的:
+
+1:使用请求拦截器，可以在请求拦截器中处理一些业务(开始进度条、请求头携带公共参数)
+
+2:使用响应拦截器，可以在响应拦截器中处理一些业务(进度条结束、简化服务器返回的数据、处理http网络错误)
+
+在根目录下创建utils/request.ts
+
+```
+import axios from "axios";
+import { ElMessage } from "element-plus";
+//创建axios实例
+let request = axios.create({
+    baseURL: import.meta.env.VITE_APP_BASE_API,
+    timeout: 5000
+})
+//请求拦截器
+request.interceptors.request.use(config => {
+    return config;
+});
+//响应拦截器
+request.interceptors.response.use((response) => {
+    return response.data;
+}, (error) => {
+    //处理网络错误
+    let msg = '';
+    let status = error.response.status;
+    switch (status) {
+        case 401:
+            msg = "token过期";
+            break;
+        case 403:
+            msg = '无权访问';
+            break;
+        case 404:
+            msg = "请求地址错误";
+            break;
+        case 500:
+            msg = "服务器出现问题";
+            break;
+        default:
+            msg = "无网络";
+
+    }
+    ElMessage({
+        type: 'error',
+        message: msg
+    })
+    return Promise.reject(error);
+});
+export default request;
+```
+
