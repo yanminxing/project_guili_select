@@ -10,6 +10,19 @@ import globalComponent from '@/components/index';
 
 import '@/styles/index.scss';
 
+import axios from 'axios';
+
+console.log(
+  axios({
+    method: 'post',
+    url: '/api/user/login',
+    data: {
+      username: 111,
+      password: 111
+    }
+  })
+);
+
 /**
  * @description 创建vue应用
  */
