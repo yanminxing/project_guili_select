@@ -2,6 +2,7 @@
 /html/*
 .local
 /node_modules/**
+/projectGuiliSelectDoc/**
 **/*.svg
 **/*.sh
 /public/*
