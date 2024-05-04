@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { reqLogin } from '@/api/login';
 import { LoginParamsModel } from '@/api/login/type.ts';
-import { UserInfoModel } from '@/store/modules/type.ts';
+import { UserInfoModel } from '@/store/modules/types/type.ts';
 
 /**
  * @description 用户信息仓库
@@ -9,13 +9,17 @@ import { UserInfoModel } from '@/store/modules/type.ts';
 const useUserStore = defineStore('user', {
   state: (): UserInfoModel => {
     return {
-      token: ''
+      token: localStorage.getItem('token') ?? ''
     };
   },
   getters: {},
   actions: {
+    // 获取token
+    GET_TOKEN() {
+      return localStorage.getItem('token') ?? '';
+    },
     // 设置token
-    setToken(token: string) {
+    SET_TOKEN(token: string) {
       this.token = token;
       localStorage.setItem('token', token);
     },
@@ -29,11 +33,11 @@ const useUserStore = defineStore('user', {
       try {
         const res: any = await reqLogin(data);
         if (res?.code === 200) {
-          this.setToken(res?.data?.token ?? '');
+          this.SET_TOKEN(res?.data?.token ?? '');
           return true;
         } else {
           this.token = '';
-          this.setToken('');
+          this.SET_TOKEN('');
           return Promise.reject(res?.data?.message);
         }
       } catch (e) {

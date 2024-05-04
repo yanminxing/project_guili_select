@@ -25,7 +25,7 @@
     "paths": {
       "@/*": ["src/*"]
     },
-    "types": ["vue", "vue-router"],
+    "types": ["vue", "vue-router"]
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"],
   "references": [{ "path": "./tsconfig.node.json" }]

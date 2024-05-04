@@ -13,6 +13,10 @@ export const staticRoutes = [
     component: () => import('@/views/home/index.vue')
   },
   {
+    path: '/',
+    redirect: '/home'
+  },
+  {
     path: '/error404',
     name: 'Error404',
     component: () => import('@/views/pageError404/index.vue')
