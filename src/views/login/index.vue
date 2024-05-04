@@ -1,11 +1,42 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Lock } from '@element-plus/icons-vue';
+import { Lock, User } from '@element-plus/icons-vue';
+import { useRouter } from 'vue-router';
+import { ElNotification } from 'element-plus';
+import useUserStore from '@/store/modules/user.ts';
+import { LoginParamsModel } from '@/api/login/type.ts';
 
-const form = ref({
+const userStore = useUserStore();
+const router = useRouter();
+
+const form = ref<LoginParamsModel>({
   password: '111111',
   username: 'admin'
 });
+const loading = ref(false);
+
+// 登录
+const doLogin = async () => {
+  try {
+    loading.value = true;
+    await userStore.userLogin(form.value);
+    ElNotification({
+      type: 'success',
+      message: '登录成功'
+    });
+    router.push({
+      path: '/home'
+    });
+  } catch (e) {
+    debugger;
+    ElNotification({
+      type: 'success',
+      message: e as string
+    });
+  } finally {
+    loading.value = false;
+  }
+};
 </script>
 
 <template>
@@ -14,13 +45,13 @@ const form = ref({
       <h1>某某平台</h1>
       <h3>欢迎×××××平台</h3>
       <el-form-item>
-        <el-input v-model="form.username"></el-input>
+        <el-input v-model="form.username" :prefix-icon="User"></el-input>
       </el-form-item>
       <el-form-item>
         <el-input v-model="form.password" type="password" :prefix-icon="Lock" show-password></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary">登录</el-button>
+        <el-button type="primary" :loading="loading" @click="doLogin">登录</el-button>
       </el-form-item>
     </el-form>
   </el-container>

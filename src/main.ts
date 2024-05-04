@@ -10,6 +10,7 @@ import globalComponent from '@/components/index';
 
 import '@/styles/index.scss';
 import { router } from '@/router';
+import pinia from '@/store';
 
 /**
  * @description 创建vue应用
@@ -20,6 +21,7 @@ function create() {
   app.use(ElementPlus, {
     locale: zhCn
   });
+  app.use(pinia);
   app.use(router);
   // 注册全局组件
   app.use(globalComponent);

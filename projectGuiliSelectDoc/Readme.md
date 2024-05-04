@@ -1108,3 +1108,112 @@ export const staticRoutes = [
  <router-view></router-view>
 ```
 
+### 3.2  使用pinia
+
+1 下载依赖
+
+```
+yarn add pinia
+```
+
+2  创建   
+
+src/store/index.ts
+
+```typescript
+import { createPinia } from 'pinia';
+
+/**
+ * @description 状态管理工具pinia模块
+ * */
+const pinia = createPinia();
+export default pinia;
+```
+
+3 注册
+
+src/main.ts
+
+```typescript
+ import pinia from '@/store';
+ app.use(pinia);
+```
+
+4 创建模块
+
+src/store/modules/user.ts
+
+```typescript
+import { defineStore } from 'pinia';
+import { reqLogin } from '@/api/login';
+import { LoginParamsModel } from '@/api/login/type.ts';
+import { UserInfoModel } from '@/store/modules/type.ts';
+
+/**
+ * @description 用户信息仓库
+ * */
+const useUserStore = defineStore('user', {
+  state: (): UserInfoModel => {
+    return {
+      token: ''
+    };
+  },
+  getters: {},
+  actions: {
+    // 设置token
+    setToken(token: string) {
+      this.token = token;
+      localStorage.setItem('token', token);
+    },
+    /**
+     * @description 用户登录
+     * @description 1 请求登录
+     * @description 2 存储token到store和localStorage（以防页面强制刷新，token丢失）里面
+     * @param {LoginParamsModel} data 用户信息
+     */
+    async userLogin(data: LoginParamsModel) {
+      try {
+        const res: any = await reqLogin(data);
+        if (res?.code === 200) {
+          this.setToken(res?.data?.token ?? '');
+          return true;
+        } else {
+          this.token = '';
+          this.setToken('');
+          return Promise.reject(res?.data?.message);
+        }
+      } catch (e) {
+        return Promise.reject('请求出错');
+      }
+    }
+  }
+});
+
+export default useUserStore;
+
+```
+
+
+
+## 4 解决的错误
+
+### 4.1  引入vue-router时候，编辑器爆红
+
+1 报错信息
+
+cannot find module 'vue-router' or its corresponding type declarations
+
+2 [解决方法](https://juejin.cn/s/cannot%20find%20module%20'vue-router'%20or%20its%20corresponding%20type%20declarations)
+
+这个错误信息通常出现在使用 TypeScript 和 Vue.js 的项目中，它表示您的代码中使用了 `vue-router` 模块，但是 TypeScript 编译器无法找到该模块或其类型声明。
+
+解决方式：下载依赖@types/vue-router，并且在tsconfig.json配置如下信息
+
+```json
+{
+  "compilerOptions": {
+    "types": ["vue-router"]
+  }
+}
+```
+
