@@ -939,7 +939,7 @@ pnpm install axios
 
 最后通过axios测试接口！！！
 
-### 2.13  axios二次封装
+### 2.13 axios二次封装
 
 在开发项目的时候避免不了与后端进行交互,因此我们需要使用axios插件实现发送网络请求。在开发项目的时候
 
@@ -996,5 +996,115 @@ request.interceptors.response.use((response) => {
     return Promise.reject(error);
 });
 export default request;
+```
+
+### 2.14  项目后台地址
+
+贾成豪老师代码仓库地址:https://gitee.com/jch1011/vue3_admin_template-bj1.git
+
+项目在线文档:
+
+服务器域名:http://sph-api.atguigu.cn
+
+swagger文档:
+
+http://139.198.104.58:8209/swagger-ui.html
+
+http://139.198.104.58:8212/swagger-ui.html#/
+
+echarts:国内镜像网站
+
+https://www.isqqw.com/echarts-doc/zh/option.html#title
+
+http://datav.aliyun.com/portal/school/atlas/area_selector
+
+## 3  项目开发
+
+### 3.1  使用路由vue-router（p30）
+
+1 下载依赖
+
+```
+yarn add vue-router@4
+```
+
+2  定义路由
+
+1）src/router/index.ts
+
+> [匹配任意路径路由以及路由的重定向](https://blog.csdn.net/XiugongHao/article/details/132715778)
+>
+> - 匹配任意路径
+>
+> `path: '/:pathMatch(.*)*'` 是一个特殊的[路由配置](https://so.csdn.net/so/search?q=路由配置&spm=1001.2101.3001.7020)，它可以用于捕获任意路径并进行路由重定向。
+>
+> `path: '/:pathMatch(.*)*'` 中的 `path` 表示该路由的路径，这里是 `/`，意味着它匹配根路径。           
+>
+> `:pathMatch(.*)*` 是一个动态片段，它使用了路由参数（以冒号 `:` 开头），其中 `pathMatch` 是参数的名称，而 `(.*)*` 是参数的[正则表达式模式](https://so.csdn.net/so/search?q=正则表达式模式&spm=1001.2101.3001.7020)。   `(.*)` 是一个正则表达式，它匹配任意字符（零次或多次）。这意味着它可以捕获任何路径片段。`*` 表示捕获的路径片段可以重复零次或多次。这允许我们捕获整个路径。所以，`/:pathMatch(.*)*` 可以匹配任意路径，包括根路径和子路径
+
+```typescript
+import { createRouter, createWebHashHistory } from 'vue-router';
+import { staticRoutes } from './staticRoutes.ts';
+
+/**
+ * @description 定义路由
+ *  */
+export const router = createRouter({
+  // 路由模式
+  history: createWebHashHistory(),
+  // 路由
+  routes: staticRoutes,
+  // 路由切换时候，滚动条行为
+  scrollBehavior: () => {
+    return {
+      left: 0,
+      top: 0
+    };
+  }
+});
+
+```
+
+src/router/staticRoutes.ts
+
+```typescript
+/**
+ * @description 静态路由
+ * */
+export const staticRoutes = [
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import('@/views/login/index.vue')
+  },
+  {
+    path: '/home',
+    name: 'Home',
+    component: () => import('@/views/home/index.vue')
+  },
+  {
+    path: '/error404',
+    name: 'Error404',
+    component: () => import('@/views/pageError404/index.vue')
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: '/error404',
+    name: 'Any'
+  }
+]
+```
+
+3 注册路由src/main.ts
+
+```typescript
+ import { router } from '@/router';
+ app.use(router);
+```
+
+4 使用路由src/App.vue
+
+```vue
+ <router-view></router-view>
 ```
 

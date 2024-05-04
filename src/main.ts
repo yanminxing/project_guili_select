@@ -9,6 +9,7 @@ import App from '@/App.vue';
 import globalComponent from '@/components/index';
 
 import '@/styles/index.scss';
+import { router } from '@/router';
 
 /**
  * @description 创建vue应用
@@ -19,6 +20,7 @@ function create() {
   app.use(ElementPlus, {
     locale: zhCn
   });
+  app.use(router);
   // 注册全局组件
   app.use(globalComponent);
 
